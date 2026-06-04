@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Podcaster.Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green:  #006233;
+    --blue:   #1e3a5f;
+    --red:    #9b283c;
+    --ivory:  #eae8e5;
+    --ivory-dark: #d9d4cc;
+    --green-dark: #004a26;
+    --blue-dark:  #142840;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'Tenor Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ivory);
+    color: var(--blue);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.6;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 180px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 60px;
+    mix-blend-mode: normal;
+  }
+  nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(234,232,229,0.95) 0%, rgba(234,232,229,0) 100%);
+    pointer-events: none;
+  }
+  .nav-logo {
+    position: relative;
+    z-index: 1;
+  }
+  .nav-logo img { height: 36px; }
+  .nav-links {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 44px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--blue);
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta {
+    position: relative;
+    z-index: 1;
+    background: var(--green);
+    color: var(--ivory) !important;
+    padding: 10px 24px !important;
+    letter-spacing: 0.18em;
+    transition: background 0.3s !important;
+  }
+  .nav-cta:hover { background: var(--green-dark) !important; color: var(--ivory) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    background: var(--blue-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 70px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.015) 2px,
+        rgba(255,255,255,0.015) 4px
+      );
+  }
+
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    bottom: -120px;
+    left: -80px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0,98,51,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 5.5vw, 82px);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--ivory);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 40px;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .hero-tagline {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(234,232,229,0.5);
+    line-height: 1.9;
+    position: relative;
+    z-index: 1;
+    max-width: 320px;
+    border-left: 1px solid var(--red);
+    padding-left: 20px;
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--blue);
+  }
+
+  .hero-right-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 50%, #2a4a70 100%);
+  }
+
+  .hero-right-texture {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 30px,
+        rgba(255,255,255,0.018) 30px,
+        rgba(255,255,255,0.018) 31px
+      );
+  }
+
+  .hero-right-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 60px;
+  }
+
+  .hero-p-mark {
+    width: 220px;
+    height: 220px;
+    opacity: 0.08;
+    position: absolute;
+    bottom: 60px;
+    right: 40px;
+  }
+
+  .hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .hero-stat {
+    border-bottom: 1px solid rgba(234,232,229,0.12);
+    padding-bottom: 48px;
+  }
+  .hero-stat:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .hero-stat-number {
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--ivory);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .hero-stat-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(234,232,229,0.45);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 70px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(234,232,229,0.3);
+    z-index: 2;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(234,232,229,0.3), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 0.7; transform: scaleY(1.1); }
+  }
+
+  /* SECTION BASE */
+  section { position: relative; }
+
+  .section-label {
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .section-label::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 140px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+    background: var(--ivory);
+    position: relative;
+  }
+
+  .about::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--ivory-dark), transparent);
+  }
+
+  .about-text h2 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 4vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--blue-dark);
+    margin-bottom: 36px;
+  }
+
+  .about-text h2 em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .about-text p {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 2;
+    color: var(--blue);
+    opacity: 0.75;
+    margin-bottom: 20px;
+    max-width: 440px;
+  }
+
+  .about-values {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .about-value {
+    padding: 36px 0;
+    border-bottom: 1px solid var(--ivory-dark);
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 24px;
+    align-items: start;
+    transition: padding-left 0.4s ease;
+  }
+  .about-value:first-child { border-top: 1px solid var(--ivory-dark); }
+  .about-value:hover { padding-left: 8px; }
+
+  .value-number {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--red);
+    font-weight: 400;
+    padding-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .value-content h4 {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue-dark);
+    margin-bottom: 10px;
+  }
+
+  .value-content p {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--blue);
+    opacity: 0.65;
+    line-height: 1.6;
+  }
+
+  /* SERVICES */
+  .services {
+    background: var(--blue-dark);
+    padding: 140px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .services::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 60px,
+        rgba(255,255,255,0.02) 60px,
+        rgba(255,255,255,0.02) 61px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 60px,
+        rgba(255,255,255,0.02) 60px,
+        rgba(255,255,255,0.02) 61px
+      );
+  }
+
+  .services-header {
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .services-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 4vw, 64px);
+    font-weight: 300;
+    color: var(--ivory);
+    max-width: 500px;
+    line-height: 1.1;
+  }
+
+  .services-header h2 em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .service-card {
+    background: rgba(255,255,255,0.03);
+    padding: 52px 40px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.4s, border-color 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--green);
+    transition: height 0.5s ease;
+  }
+
+  .service-card:hover { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.1); }
+  .service-card:hover::before { height: 100%; }
+
+  .service-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 36px;
+    opacity: 0.5;
+  }
+
+  .service-card h3 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--ivory);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .service-card p {
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.9;
+    color: rgba(234,232,229,0.45);
+  }
+
+  .service-tag {
+    display: inline-block;
+    margin-top: 28px;
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid rgba(0,98,51,0.4);
+    padding: 6px 14px;
+  }
+
+  /* GALLERY */
+  .gallery {
+    padding: 140px 60px;
+    background: var(--ivory);
+  }
+
+  .gallery-header {
+    margin-bottom: 64px;
+  }
+
+  .gallery-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 4vw, 64px);
+    font-weight: 300;
+    color: var(--blue-dark);
+    line-height: 1.1;
+  }
+
+  .gallery-header h2 em { font-style: italic; color: var(--green); }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 340px 240px;
+    gap: 4px;
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    background: var(--blue-dark);
+  }
+
+  .gallery-item:first-child {
+    grid-row: 1 / 3;
+  }
+
+  .gallery-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+  }
+
+  .gallery-item:nth-child(1) .gallery-placeholder { background: linear-gradient(135deg, #142840 0%, #1e3a5f 100%); }
+  .gallery-item:nth-child(2) .gallery-placeholder { background: linear-gradient(135deg, #004a26 0%, #006233 100%); }
+  .gallery-item:nth-child(3) .gallery-placeholder { background: linear-gradient(135deg, #6b1a28 0%, #9b283c 100%); }
+  .gallery-item:nth-child(4) .gallery-placeholder { background: linear-gradient(135deg, #1e3a5f 0%, #26394f 100%); }
+  .gallery-item:nth-child(5) .gallery-placeholder { background: linear-gradient(135deg, #006233 0%, #004a26 100%); }
+
+  .gallery-label {
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(234,232,229,0.4);
+  }
+
+  .gallery-item-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--ivory);
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--green);
+    padding: 140px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(0,0,0,0.025) 40px,
+        rgba(0,0,0,0.025) 41px
+      );
+  }
+
+  .cta-section::after {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.08);
+    pointer-events: none;
+  }
+
+  .cta-text { position: relative; z-index: 1; }
+
+  .cta-text h2 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 4.5vw, 68px);
+    font-weight: 300;
+    color: var(--ivory);
+    line-height: 1.05;
+    margin-bottom: 24px;
+  }
+
+  .cta-text h2 em {
+    font-style: italic;
+    color: rgba(234,232,229,0.55);
+  }
+
+  .cta-text p {
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 2;
+    color: rgba(234,232,229,0.65);
+    max-width: 400px;
+  }
+
+  .cta-form { position: relative; z-index: 1; }
+
+  .cta-form-title {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(234,232,229,0.5);
+    margin-bottom: 32px;
+  }
+
+  .form-row {
+    margin-bottom: 16px;
+  }
+
+  .form-row input,
+  .form-row select,
+  .form-row textarea {
+    width: 100%;
+    background: rgba(0,0,0,0.15);
+    border: 1px solid rgba(234,232,229,0.2);
+    color: var(--ivory);
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    padding: 16px 20px;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+    appearance: none;
+  }
+
+  .form-row input::placeholder,
+  .form-row textarea::placeholder { color: rgba(234,232,229,0.3); }
+  .form-row input:focus,
+  .form-row select:focus,
+  .form-row textarea:focus {
+    border-color: rgba(234,232,229,0.5);
+    background: rgba(0,0,0,0.2);
+  }
+
+  .form-row select option { background: var(--green-dark); color: var(--ivory); }
+  .form-row textarea { resize: none; height: 100px; }
+
+  .form-submit {
+    width: 100%;
+    background: var(--ivory);
+    color: var(--green);
+    border: none;
+    padding: 18px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    cursor: none;
+    margin-top: 8px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .form-submit:hover { background: var(--blue-dark); color: var(--ivory); }
+
+  /* FOOTER */
+  footer {
+    background: var(--blue-dark);
+    padding: 80px 60px 48px;
+    position: relative;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.012) 2px,
+        rgba(255,255,255,0.012) 4px
+      );
+    pointer-events: none;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 80px;
+    margin-bottom: 64px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-brand img { height: 32px; margin-bottom: 24px; }
+
+  .footer-brand p {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(234,232,229,0.4);
+    line-height: 1.7;
+    max-width: 280px;
+  }
+
+  .footer-col h5 {
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 24px;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 14px; }
+  .footer-col ul a {
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: rgba(234,232,229,0.4);
+    letter-spacing: 0.06em;
+    transition: color 0.3s;
+  }
+  .footer-col ul a:hover { color: var(--ivory); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-bottom p {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: rgba(234,232,229,0.2);
+  }
+
+  .footer-bottom span {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-style: italic;
+    color: rgba(234,232,229,0.2);
+  }
+
+  /* REVEAL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--ivory-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--green); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="logop.svg" alt="Podcaster.Studio">
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">Studio</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Space</a></li>
+    <li><a href="#booking" class="nav-cta">Book a Session</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Tbilisi's Premier Podcast Studio</div>
+    <h1 class="hero-headline">
+      You don't just<br>
+      record a podcast.<br>
+      <em>You become<br>the Podcaster.</em>
+    </h1>
+    <p class="hero-tagline">
+      Where every session is engineered<br>
+      to match the weight of your voice.<br>
+      Premium. Precise. Permanent.
+    </p>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-bg"></div>
+    <div class="hero-right-texture"></div>
+    <div class="hero-right-content">
+      <div class="hero-stats">
+        <div class="hero-stat reveal">
+          <div class="hero-stat-number">3h</div>
+          <div class="hero-stat-label">Delivered. Same session.</div>
+        </div>
+        <div class="hero-stat reveal">
+          <div class="hero-stat-number">4K</div>
+          <div class="hero-stat-label">Broadcast-grade cameras</div>
+        </div>
+        <div class="hero-stat reveal">
+          <div class="hero-stat-number">∞</div>
+          <div class="hero-stat-label">Possibilities for your voice</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-text reveal">
+    <div class="section-label">The Philosophy</div>
+    <h2>Built for those<br>who take their<br><em>voice seriously.</em></h2>
+    <p>Podcaster.Studio was created for a single purpose: to give Georgia's most serious voices the infrastructure they deserve. Not a room with a mic — a command center for ideas.</p>
+    <p>From the dedicated control room to the seamless 3-hour delivery, every detail is engineered around one principle: respect for your time and your craft.</p>
+  </div>
+  <div class="about-values reveal">
+    <div class="about-value">
+      <div class="value-number">01</div>
+      <div class="value-content">
+        <h4>Respect</h4>
+        <p>Your podcast is ready within 3 hours. No barriers, no waiting — your time is the session.</p>
+      </div>
+    </div>
+    <div class="about-value">
+      <div class="value-number">02</div>
+      <div class="value-content">
+        <h4>Precision</h4>
+        <p>Every element — acoustic, visual, technical — is calibrated to broadcast standard.</p>
+      </div>
+    </div>
+    <div class="about-value">
+      <div class="value-number">03</div>
+      <div class="value-content">
+        <h4>Presence</h4>
+        <p>Direct access. Private parking. A space that announces your arrival before you speak.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header reveal">
+    <div class="section-label">What We Offer</div>
+    <h2>Everything a<br><em>Podcaster</em> needs.</h2>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="16" y="4" width="12" height="22" rx="6" stroke="#eae8e5" stroke-width="1.5"/>
+        <path d="M8 22c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="#eae8e5" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="22" y1="36" x2="22" y2="42" stroke="#eae8e5" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16" y1="42" x2="28" y2="42" stroke="#eae8e5" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <h3>Audio Recording</h3>
+      <p>Professional acoustic environment with broadcast-grade microphones and full monitoring suite. Engineered for clarity at every frequency.</p>
+      <span class="service-tag">Full Production</span>
+    </div>
+
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="10" width="28" height="20" rx="2" stroke="#eae8e5" stroke-width="1.5"/>
+        <rect x="36" y="16" width="4" height="8" rx="1" stroke="#eae8e5" stroke-width="1.5"/>
+        <circle cx="18" cy="20" r="5" stroke="#eae8e5" stroke-width="1.5"/>
+      </svg>
+      <h3>4K Video Studio</h3>
+      <p>Multi-camera setup with dedicated control room operation. Professional lighting and backdrop options for every format and aesthetic.</p>
+      <span class="service-tag">Multi-Camera</span>
+    </div>
+
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="22" cy="22" r="16" stroke="#eae8e5" stroke-width="1.5"/>
+        <path d="M22 10v12l8 4" stroke="#eae8e5" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <h3>3-Hour Delivery</h3>
+      <p>Edited, mixed, and mastered within three hours of your session ending. Your content is ready before the day is over.</p>
+      <span class="service-tag">Same Day</span>
+    </div>
+
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="8" width="32" height="22" rx="2" stroke="#eae8e5" stroke-width="1.5"/>
+        <path d="M6 36h32" stroke="#eae8e5" stroke-width="1.5" stroke-linecap="round"/>
+        <rect x="12" y="14" width="8" height="10" rx="1" stroke="#eae8e5" stroke-width="1.5"/>
+        <rect x="24" y="14" width="8" height="10" rx="1" stroke="#eae8e5" stroke-width="1.5"/>
+      </svg>
+      <h3>Control Room</h3>
+      <p>Dedicated production suite with full signal routing, live monitoring and real-time direction from engineer to talent.</p>
+      <span class="service-tag">Dedicated Operator</span>
+    </div>
+
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 4L4 14v16l18 10 18-10V14L22 4z" stroke="#eae8e5" stroke-width="1.5"/>
+        <path d="M22 4v36M4 14l18 10 18-10" stroke="#eae8e5" stroke-width="1.5"/>
+      </svg>
+      <h3>Private Access</h3>
+      <p>Dedicated entrance, complimentary parking, zero friction from arrival to session start. The studio begins the moment you arrive.</p>
+      <span class="service-tag">VIP Entry</span>
+    </div>
+
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 34V18l14-10 14 10v16" stroke="#eae8e5" stroke-width="1.5" stroke-linecap="round"/>
+        <rect x="16" y="24" width="12" height="10" rx="1" stroke="#eae8e5" stroke-width="1.5"/>
+        <line x1="22" y1="24" x2="22" y2="34" stroke="#eae8e5" stroke-width="1.5"/>
+      </svg>
+      <h3>The Studio Space</h3>
+      <p>300sqm of purposefully designed environment — acoustic panels, premium furniture, and atmosphere that commands the room.</p>
+      <span class="service-tag">Premium Environment</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header reveal">
+    <div class="section-label">The Space</div>
+    <h2>A room built for<br><em>serious work.</em></h2>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <div class="gallery-label">Main Studio</div>
+        <div class="gallery-item-title">The Recording Floor</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <div class="gallery-label">Production</div>
+        <div class="gallery-item-title">Control Room</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <div class="gallery-label">Detail</div>
+        <div class="gallery-item-title">Equipment</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <div class="gallery-label">Lounge</div>
+        <div class="gallery-item-title">Pre-Session Space</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <div class="gallery-label">Atmosphere</div>
+        <div class="gallery-item-title">The Ambiance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING / CTA -->
+<section class="cta-section" id="booking">
+  <div class="cta-text reveal">
+    <div class="section-label" style="color: rgba(234,232,229,0.4);">Reserve Your Session</div>
+    <h2>Ready to become<br><em>the Podcaster?</em></h2>
+    <p>Book your session at Podcaster.Studio. We'll confirm within 2 hours and take care of everything from there.</p>
+  </div>
+  <div class="cta-form reveal">
+    <div class="cta-form-title">Session Enquiry</div>
+    <div class="form-row">
+      <input type="text" placeholder="Your Name">
+    </div>
+    <div class="form-row">
+      <input type="text" placeholder="Phone or Email">
+    </div>
+    <div class="form-row">
+      <select>
+        <option value="" disabled selected>Session Type</option>
+        <option>Audio Podcast</option>
+        <option>Video Podcast</option>
+        <option>Full Production</option>
+        <option>Live Stream</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <textarea placeholder="Preferred date, time, and any notes..."></textarea>
+    </div>
+    <button class="form-submit">Request a Session</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="logop.svg" alt="Podcaster.Studio">
+      <p>"You don't just record the podcast — you are the Podcaster."</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <ul>
+        <li><a href="#about">The Studio</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#gallery">The Space</a></li>
+        <li><a href="#booking">Book a Session</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="#">Tbilisi, Georgia</a></li>
+        <li><a href="#">hello@podcaster.studio</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Free Parking Available</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Podcaster.Studio — All rights reserved</p>
+    <span>Where guests become Podcasters.</span>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, input, select, textarea').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '6px';
+      cursor.style.height = '6px';
+      ring.style.width = '52px';
+      ring.style.height = '52px';
+      ring.style.opacity = '1';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px';
+      cursor.style.height = '10px';
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      ring.style.opacity = '0.6';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
