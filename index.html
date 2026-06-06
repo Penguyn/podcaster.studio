@@ -119,6 +119,31 @@ nav::after {
 }
 .nav-cta:hover { background: var(--red-dark) !important; }
 
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 28px;
+}
+.lang-btn {
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  font-family: var(--font);
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--blue);
+  cursor: none;
+  padding: 4px 8px;
+  text-transform: uppercase;
+  transition: color 0.3s, opacity 0.3s, border-color 0.3s;
+  opacity: 0.35;
+}
+.lang-btn:hover { opacity: 0.8; }
+.lang-btn.active { opacity: 1; border-bottom-color: var(--blue); }
+
+
 /* ── HERO ── */
 .hero {
   min-height: 100vh;
@@ -664,30 +689,30 @@ footer::before {
     <img src="https://raw.githubusercontent.com/Penguyn/podcaster.studio/main/logop.svg" alt="Podcaster.Studio">
   </div>
   <ul class="nav-links">
-    <li><a href="#about">Studio</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#gallery">Space</a></li>
-    <li><a href="#booking" class="nav-cta">Book a Session</a></li>
+    <li><a href="#about" data-t="nav-studio">Studio</a></li>
+    <li><a href="#services" data-t="nav-services">Services</a></li>
+    <li><a href="#gallery" data-t="nav-space">Space</a></li>
+    <li><a href="#booking" class="nav-cta" data-t="nav-book">Book a Session</a></li>
   </ul>
+  <div class="lang-switch">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ka')">ქა</button>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-left">
-    <div class="hero-eyebrow">Tbilisi's Premier Podcast Studio</div>
-    <h1 class="hero-headline">
-      You don't just<br>
-      record a podcast.<br>
-      <span>You become<br>the Podcaster.</span>
-    </h1>
+    <div class="hero-eyebrow" data-t="hero-eyebrow">Tbilisi's Premier Podcast Studio</div>
+    <h1 class="hero-headline" data-t="hero-headline">You don't just<br>record a podcast.<br><span>You become<br>the Podcaster.</span></h1>
     <div class="hero-tagline">
       <div class="tagline-line-1">In <span class="t-black">PODCASTER.</span><span class="t-light">STUDIO</span></div>
-      <div class="tagline-line-2">You Do Not Just Record The Podcast</div>
-      <div class="tagline-line-3">YOU ARE THE PODCASTER</div>
+      <div class="tagline-line-2" data-t="tagline-2">You Do Not Just Record The Podcast</div>
+      <div class="tagline-line-3" data-t="tagline-3">YOU ARE THE PODCASTER</div>
     </div>
     <div class="hero-scroll">
       <div class="scroll-line"></div>
-      Scroll
+      <span data-t="scroll">Scroll</span>
     </div>
   </div>
   <div class="hero-right">
@@ -713,31 +738,31 @@ footer::before {
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="about-text reveal">
-    <div class="section-label">The Philosophy</div>
-    <h2>Built for those<br>who take their<br><span>voice seriously.</span></h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
+    <div class="section-label" data-t="about-label">The Philosophy</div>
+    <h2 data-t="about-h2">Built for those<br>who take their<br><span>voice seriously.</span></h2>
+    <p data-t="about-p1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+    <p data-t="about-p2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
   </div>
   <div class="about-values reveal">
     <div class="about-value">
       <div class="value-number">01</div>
       <div class="value-content">
-        <h4>Respect</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+        <h4 data-t="val1-title">Respect</h4>
+        <p data-t="val1-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
       </div>
     </div>
     <div class="about-value">
       <div class="value-number">02</div>
       <div class="value-content">
-        <h4>Precision</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+        <h4 data-t="val2-title">Precision</h4>
+        <p data-t="val2-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
       </div>
     </div>
     <div class="about-value">
       <div class="value-number">03</div>
       <div class="value-content">
-        <h4>Presence</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+        <h4 data-t="val3-title">Presence</h4>
+        <p data-t="val3-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
       </div>
     </div>
   </div>
@@ -746,8 +771,8 @@ footer::before {
 <!-- SERVICES -->
 <section class="services" id="services">
   <div class="services-header reveal">
-    <div class="section-label">What We Offer</div>
-    <h2>Everything a<br><span>Podcaster</span> needs.</h2>
+    <div class="section-label" data-t="svc-label">What We Offer</div>
+    <h2 data-t="svc-h2">Everything a<br><span>PODCASTER</span> needs.</h2>
   </div>
   <div class="services-grid">
     <div class="service-card reveal">
@@ -757,9 +782,9 @@ footer::before {
         <line x1="20" y1="33" x2="20" y2="38" stroke="#eae8e5" stroke-width="1.4" stroke-linecap="round"/>
         <line x1="14" y1="38" x2="26" y2="38" stroke="#eae8e5" stroke-width="1.4" stroke-linecap="round"/>
       </svg>
-      <h3>Audio Recording</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
-      <span class="service-tag">Full Production</span>
+      <h3 data-t="svc1-title">Audio Recording</h3>
+      <p data-t="svc1-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
+      <span class="service-tag" data-t="svc1-tag">Full Production</span>
     </div>
     <div class="service-card reveal">
       <svg class="service-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -767,18 +792,18 @@ footer::before {
         <rect x="33" y="14" width="4" height="8" rx="1" stroke="#eae8e5" stroke-width="1.4"/>
         <circle cx="16" cy="18" r="4" stroke="#eae8e5" stroke-width="1.4"/>
       </svg>
-      <h3>4K Video Studio</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
-      <span class="service-tag">Multi-Camera</span>
+      <h3 data-t="svc2-title">4K Video Studio</h3>
+      <p data-t="svc2-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
+      <span class="service-tag" data-t="svc2-tag">Multi-Camera</span>
     </div>
     <div class="service-card reveal">
       <svg class="service-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="20" cy="20" r="15" stroke="#eae8e5" stroke-width="1.4"/>
         <path d="M20 9v11l7 4" stroke="#eae8e5" stroke-width="1.4" stroke-linecap="round"/>
       </svg>
-      <h3>3-Hour Delivery</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
-      <span class="service-tag">Same Day</span>
+      <h3 data-t="svc3-title">3-Hour Delivery</h3>
+      <p data-t="svc3-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
+      <span class="service-tag" data-t="svc3-tag">Same Day</span>
     </div>
     <div class="service-card reveal">
       <svg class="service-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -787,18 +812,18 @@ footer::before {
         <rect x="11" y="13" width="7" height="8" rx="1" stroke="#eae8e5" stroke-width="1.4"/>
         <rect x="22" y="13" width="7" height="8" rx="1" stroke="#eae8e5" stroke-width="1.4"/>
       </svg>
-      <h3>Control Room</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
-      <span class="service-tag">Dedicated Operator</span>
+      <h3 data-t="svc4-title">Control Room</h3>
+      <p data-t="svc4-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
+      <span class="service-tag" data-t="svc4-tag">Dedicated Operator</span>
     </div>
     <div class="service-card reveal">
       <svg class="service-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20 3L3 13v14l17 10 17-10V13L20 3z" stroke="#eae8e5" stroke-width="1.4"/>
         <path d="M20 3v34M3 13l17 10 17-10" stroke="#eae8e5" stroke-width="1.4"/>
       </svg>
-      <h3>Private Access</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
-      <span class="service-tag">VIP Entry</span>
+      <h3 data-t="svc5-title">Private Access</h3>
+      <p data-t="svc5-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
+      <span class="service-tag" data-t="svc5-tag">VIP Entry</span>
     </div>
     <div class="service-card reveal">
       <svg class="service-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -806,9 +831,9 @@ footer::before {
         <rect x="15" y="22" width="10" height="10" rx="1" stroke="#eae8e5" stroke-width="1.4"/>
         <line x1="20" y1="22" x2="20" y2="32" stroke="#eae8e5" stroke-width="1.4"/>
       </svg>
-      <h3>The Studio Space</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
-      <span class="service-tag">Premium Environment</span>
+      <h3 data-t="svc6-title">The Studio Space</h3>
+      <p data-t="svc6-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.</p>
+      <span class="service-tag" data-t="svc6-tag">Premium Environment</span>
     </div>
   </div>
 </section>
@@ -816,38 +841,38 @@ footer::before {
 <!-- GALLERY -->
 <section class="gallery" id="gallery">
   <div class="gallery-header reveal">
-    <div class="section-label">The Space</div>
-    <h2>A room built for<br><span>serious work.</span></h2>
+    <div class="section-label" data-t="gal-label">The Space</div>
+    <h2 data-t="gal-h2">A room built for<br><span>serious work.</span></h2>
   </div>
   <div class="gallery-grid reveal">
     <div class="gallery-item">
       <div class="gallery-placeholder">
-        <div class="gallery-lbl">Main Studio</div>
-        <div class="gallery-title">The Recording Floor</div>
+        <div class="gallery-lbl" data-t="gal1-lbl">Main Studio</div>
+        <div class="gallery-title" data-t="gal1-title">The Recording Floor</div>
       </div>
     </div>
     <div class="gallery-item">
       <div class="gallery-placeholder">
-        <div class="gallery-lbl">Production</div>
-        <div class="gallery-title">Control Room</div>
+        <div class="gallery-lbl" data-t="gal2-lbl">Production</div>
+        <div class="gallery-title" data-t="gal2-title">Control Room</div>
       </div>
     </div>
     <div class="gallery-item">
       <div class="gallery-placeholder">
-        <div class="gallery-lbl">Detail</div>
-        <div class="gallery-title">Equipment</div>
+        <div class="gallery-lbl" data-t="gal3-lbl">Detail</div>
+        <div class="gallery-title" data-t="gal3-title">Equipment</div>
       </div>
     </div>
     <div class="gallery-item">
       <div class="gallery-placeholder">
-        <div class="gallery-lbl">Lounge</div>
-        <div class="gallery-title">Pre-Session Space</div>
+        <div class="gallery-lbl" data-t="gal4-lbl">Lounge</div>
+        <div class="gallery-title" data-t="gal4-title">Pre-Session Space</div>
       </div>
     </div>
     <div class="gallery-item">
       <div class="gallery-placeholder">
-        <div class="gallery-lbl">Atmosphere</div>
-        <div class="gallery-title">The Ambiance</div>
+        <div class="gallery-lbl" data-t="gal5-lbl">Atmosphere</div>
+        <div class="gallery-title" data-t="gal5-title">The Ambiance</div>
       </div>
     </div>
   </div>
@@ -856,25 +881,25 @@ footer::before {
 <!-- BOOKING -->
 <section class="cta-section" id="booking">
   <div class="cta-text reveal">
-    <div class="section-label" style="color:rgba(234,232,229,0.4);">Reserve Your Session</div>
-    <h2>Ready to become<br><span>the Podcaster?</span></h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam.</p>
+    <div class="section-label" style="color:rgba(234,232,229,0.4);" data-t="cta-label">Reserve Your Session</div>
+    <h2 data-t="cta-h2">Ready to become<br><span>the PODCASTER?</span></h2>
+    <p data-t="cta-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam.</p>
   </div>
   <div class="cta-form reveal">
-    <div class="cta-form-title">Session Enquiry</div>
-    <div class="form-row"><input type="text" placeholder="Your Name"></div>
-    <div class="form-row"><input type="text" placeholder="Phone or Email"></div>
+    <div class="cta-form-title" data-t="form-title">Session Enquiry</div>
+    <div class="form-row"><input type="text" data-t="form-name-ph" placeholder="Your Name"></div>
+    <div class="form-row"><input type="text" data-t="form-contact-ph" placeholder="Phone or Email"></div>
     <div class="form-row">
       <select>
-        <option value="" disabled selected>Session Type</option>
-        <option>Audio Podcast</option>
-        <option>Video Podcast</option>
-        <option>Full Production</option>
-        <option>Live Stream</option>
+        <option value="" disabled selected data-t="form-type-ph">Session Type</option>
+        <option data-t="form-opt1">Audio Podcast</option>
+        <option data-t="form-opt2">Video Podcast</option>
+        <option data-t="form-opt3">Full Production</option>
+        <option data-t="form-opt4">Live Stream</option>
       </select>
     </div>
-    <div class="form-row"><textarea placeholder="Preferred date, time, and any notes..."></textarea></div>
-    <button class="form-submit">Request a Session</button>
+    <div class="form-row"><textarea data-t="form-notes-ph" placeholder="Preferred date, time, and any notes..."></textarea></div>
+    <button class="form-submit" data-t="form-submit">Request a Session</button>
   </div>
 </section>
 
@@ -883,30 +908,30 @@ footer::before {
   <div class="footer-top">
     <div class="footer-brand">
       <img src="https://raw.githubusercontent.com/Penguyn/podcaster.studio/main/logop.svg" alt="Podcaster.Studio">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+      <p data-t="foot-brand-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
     </div>
     <div class="footer-col">
-      <h5>Navigation</h5>
+      <h5 data-t="foot-nav-title">Navigation</h5>
       <ul>
-        <li><a href="#about">The Studio</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#gallery">The Space</a></li>
-        <li><a href="#booking">Book a Session</a></li>
+        <li><a href="#about" data-t="foot-nav1">The Studio</a></li>
+        <li><a href="#services" data-t="foot-nav2">Services</a></li>
+        <li><a href="#gallery" data-t="foot-nav3">The Space</a></li>
+        <li><a href="#booking" data-t="foot-nav4">Book a Session</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h5>Contact</h5>
+      <h5 data-t="foot-con-title">Contact</h5>
       <ul>
-        <li><a href="#">Tbilisi, Georgia</a></li>
-        <li><a href="#">hello@podcaster.studio</a></li>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Free Parking Available</a></li>
+        <li><a href="#" data-t="foot-con1">Tbilisi, Georgia</a></li>
+        <li><a href="#" data-t="foot-con2">hello@podcaster.studio</a></li>
+        <li><a href="#" data-t="foot-con3">Instagram</a></li>
+        <li><a href="#" data-t="foot-con4">Free Parking Available</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 Podcaster.Studio — All rights reserved</p>
-    <span>You Are The Podcaster</span>
+    <p data-t="foot-copy">© 2025 Podcaster.Studio — All rights reserved</p>
+    <span data-t="foot-tag">You Are The PODCASTER</span>
   </div>
 </footer>
 
@@ -937,6 +962,191 @@ footer::before {
       ring.style.width = '36px'; ring.style.height = '36px'; ring.style.opacity = '0.5';
     });
   });
+
+
+  const T = {
+    en: {
+      'nav-studio': 'Studio',
+      'nav-services': 'Services',
+      'nav-space': 'Space',
+      'nav-book': 'Book a Session',
+      'hero-eyebrow': "Tbilisi's Premier Podcast Studio",
+      'hero-headline': "You don't just<br>record a podcast.<br><span>You become<br>the <span class=\"p-word\">Podcaster</span>.</span>",
+      'tagline-2': 'You Do Not Just Record The Podcast',
+      'tagline-3': 'YOU ARE THE PODCASTER',
+      'scroll': 'Scroll',
+      'about-label': 'The Philosophy',
+      'about-h2': "Built for those<br>who take their<br><span>voice seriously.</span>",
+      'about-p1': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.',
+      'about-p2': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.',
+      'val1-title': 'Respect',
+      'val1-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.',
+      'val2-title': 'Precision',
+      'val2-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.',
+      'val3-title': 'Presence',
+      'val3-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.',
+      'svc-label': 'What We Offer',
+      'svc-h2': "Everything a<br><span class=\"p-word\">PODCASTER</span> needs.",
+      'svc1-title': 'Audio Recording',
+      'svc1-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.',
+      'svc1-tag': 'Full Production',
+      'svc2-title': '4K Video Studio',
+      'svc2-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.',
+      'svc2-tag': 'Multi-Camera',
+      'svc3-title': '3-Hour Delivery',
+      'svc3-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.',
+      'svc3-tag': 'Same Day',
+      'svc4-title': 'Control Room',
+      'svc4-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.',
+      'svc4-tag': 'Dedicated Operator',
+      'svc5-title': 'Private Access',
+      'svc5-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.',
+      'svc5-tag': 'VIP Entry',
+      'svc6-title': 'The Studio Space',
+      'svc6-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.',
+      'svc6-tag': 'Premium Environment',
+      'gal-label': 'The Space',
+      'gal-h2': "A room built for<br><span>serious work.</span>",
+      'gal1-lbl': 'Main Studio', 'gal1-title': 'The Recording Floor',
+      'gal2-lbl': 'Production',  'gal2-title': 'Control Room',
+      'gal3-lbl': 'Detail',      'gal3-title': 'Equipment',
+      'gal4-lbl': 'Lounge',      'gal4-title': 'Pre-Session Space',
+      'gal5-lbl': 'Atmosphere',  'gal5-title': 'The Ambiance',
+      'cta-label': 'Reserve Your Session',
+      'cta-h2': "Ready to become<br><span>the <span class=\"p-word\">PODCASTER</span>?</span>",
+      'cta-body': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam.',
+      'form-title': 'Session Enquiry',
+      'form-name-ph': 'Your Name',
+      'form-contact-ph': 'Phone or Email',
+      'form-type-ph': 'Session Type',
+      'form-opt1': 'Audio Podcast',
+      'form-opt2': 'Video Podcast',
+      'form-opt3': 'Full Production',
+      'form-opt4': 'Live Stream',
+      'form-notes-ph': 'Preferred date, time, and any notes...',
+      'form-submit': 'Request a Session',
+      'foot-brand-p': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.',
+      'foot-nav-title': 'Navigation',
+      'foot-nav1': 'The Studio', 'foot-nav2': 'Services', 'foot-nav3': 'The Space', 'foot-nav4': 'Book a Session',
+      'foot-con-title': 'Contact',
+      'foot-con1': 'Tbilisi, Georgia',
+      'foot-con2': 'hello@podcaster.studio',
+      'foot-con3': 'Instagram',
+      'foot-con4': 'Free Parking Available',
+      'foot-copy': '© 2025 Podcaster.Studio — All rights reserved',
+      'foot-tag': 'You Are The PODCASTER',
+    },
+    ka: {
+      'nav-studio': 'სტუდია',
+      'nav-services': 'სერვისები',
+      'nav-space': 'სივრცე',
+      'nav-book': 'სესიის ჯავშანი',
+      'hero-eyebrow': 'თბილისის პრემიუმ პოდკასტ სტუდია',
+      'hero-headline': "შენ უბრალოდ არ<br>ჩაიწერ პოდკასტს.<br><span>შენ ხდები<br><span class=\"p-word\">PODCASTER</span>.</span>",
+      'tagline-2': 'შენ უბრალოდ არ ჩაიწერ პოდკასტს',
+      'tagline-3': 'შენ ხარ PODCASTER',
+      'scroll': 'გადაახვიე',
+      'about-label': 'ფილოსოფია',
+      'about-h2': "შექმნილია მათთვის,<br>ვინც სერიოზულად<br><span>ეკიდება საკუთარ ხმას.</span>",
+      'about-p1': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე ეთ დოლორე მაგნა ალიქუა. უთ ენიმ ად მინიმ ვენიამ.',
+      'about-p2': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე ეთ დოლორე მაგნა ალიქუა.',
+      'val1-title': 'პატივისცემა',
+      'val1-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე.',
+      'val2-title': 'სიზუსტე',
+      'val2-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე.',
+      'val3-title': 'ყოფნა',
+      'val3-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე.',
+      'svc-label': 'ჩვენი სერვისები',
+      'svc-h2': "ყველაფერი, რაც<br><span class=\"p-word\">PODCASTER</span>-ს სჭირდება.",
+      'svc1-title': 'აუდიო ჩაწერა',
+      'svc1-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე ეთ დოლორე მაგნა.',
+      'svc1-tag': 'სრული პროდუქცია',
+      'svc2-title': '4K ვიდეო სტუდია',
+      'svc2-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე ეთ დოლორე მაგნა.',
+      'svc2-tag': 'მულტი-კამერა',
+      'svc3-title': '3-საათიანი მიწოდება',
+      'svc3-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე ეთ დოლორე მაგნა.',
+      'svc3-tag': 'იმავე დღეს',
+      'svc4-title': 'საკონტროლო ოთახი',
+      'svc4-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე ეთ დოლორე მაგნა.',
+      'svc4-tag': 'დედიკირებული ოპერატორი',
+      'svc5-title': 'პირდაპირი წვდომა',
+      'svc5-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე ეთ დოლორე მაგნა.',
+      'svc5-tag': 'VIP შესასვლელი',
+      'svc6-title': 'სტუდიის სივრცე',
+      'svc6-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე ეთ დოლორე მაგნა.',
+      'svc6-tag': 'პრემიუმ გარემო',
+      'gal-label': 'სივრცე',
+      'gal-h2': "სივრცე, შექმნილი<br><span>სერიოზული სამუშაოსთვის.</span>",
+      'gal1-lbl': 'მთავარი სტუდია',   'gal1-title': 'ჩაწერის სართული',
+      'gal2-lbl': 'პროდუქცია',        'gal2-title': 'საკონტროლო ოთახი',
+      'gal3-lbl': 'დეტალი',           'gal3-title': 'აღჭურვილობა',
+      'gal4-lbl': 'ლაუნჯი',           'gal4-title': 'სესიამდელი სივრცე',
+      'gal5-lbl': 'ატმოსფერო',        'gal5-title': 'გარემო',
+      'cta-label': 'დაჯავშნე სესია',
+      'cta-h2': "მზად ხარ გახდე<br><span><span class=\"p-word\">PODCASTER</span>?</span>",
+      'cta-body': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე ეთ დოლორე მაგნა ალიქუა.',
+      'form-title': 'სესიის მოთხოვნა',
+      'form-name-ph': 'შენი სახელი',
+      'form-contact-ph': 'ტელეფონი ან ელფოსტა',
+      'form-type-ph': 'სესიის ტიპი',
+      'form-opt1': 'აუდიო პოდკასტი',
+      'form-opt2': 'ვიდეო პოდკასტი',
+      'form-opt3': 'სრული პროდუქცია',
+      'form-opt4': 'პირდაპირი ეთერი',
+      'form-notes-ph': 'სასურველი თარიღი, დრო და შენიშვნები...',
+      'form-submit': 'სესიის მოთხოვნა',
+      'foot-brand-p': 'ლორემ იფსუმ დოლორ სით ამეთ, კონსეკტეტურ ადიფისცინგ ელით. სედ დო ეიუსმოდ ტემპორ ინციდიდუნტ უთ ლაბორე.',
+      'foot-nav-title': 'ნავიგაცია',
+      'foot-nav1': 'სტუდია', 'foot-nav2': 'სერვისები', 'foot-nav3': 'სივრცე', 'foot-nav4': 'სესიის ჯავშანი',
+      'foot-con-title': 'კონტაქტი',
+      'foot-con1': 'თბილისი, საქართველო',
+      'foot-con2': 'hello@podcaster.studio',
+      'foot-con3': 'Instagram',
+      'foot-con4': 'უფასო პარკინგი',
+      'foot-copy': '© 2025 Podcaster.Studio — ყველა უფლება დაცულია',
+      'foot-tag': 'შენ ხარ PODCASTER',
+    }
+  };
+
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    // toggle buttons
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active',
+        (lang === 'en' && b.textContent.trim() === 'EN') ||
+        (lang === 'ka' && b.textContent.trim() === 'ქა')
+      );
+    });
+    const d = T[lang];
+    // helper: set innerHTML on element by id-key
+    function set(key, html) {
+      const el = document.querySelector('[data-t="' + key + '"]');
+      if (el) el.innerHTML = html;
+    }
+    function setText(key, text) {
+      const el = document.querySelector('[data-t="' + key + '"]');
+      if (el) el.textContent = text;
+    }
+    function setPh(key, text) {
+      const el = document.querySelector('[data-t="' + key + '"]');
+      if (el) el.placeholder = text;
+    }
+    Object.keys(d).forEach(key => {
+      const val = d[key];
+      const el = document.querySelector('[data-t="' + key + '"]');
+      if (!el) return;
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = val;
+      } else if (el.tagName === 'OPTION') {
+        el.textContent = val;
+      } else if (val.includes('<')) {
+        el.innerHTML = val;
+      } else {
+        el.textContent = val;
+      }
+    });
+  }
 
   // Reveal
   const observer = new IntersectionObserver(entries => {
